@@ -538,10 +538,45 @@
             }
         }
 
+        // Pedir permisos de cámara
+        async function pedirPermisoCamara() {
+            try {
+                const stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } });
+                // Si llegamos aquí, el permiso fue concedido
+                stream.getTracks().forEach(track => track.stop());
+                return true;
+            } catch (err) {
+                if (err.name === 'NotAllowedError' || err.name === 'PermissionDeniedError') {
+                    mostrarAlerta('❌ Permiso de cámara denegado. Por favor, habilita los permisos e intenta de nuevo.', 'error');
+                } else if (err.name === 'NotFoundError') {
+                    mostrarAlerta('❌ No se encontró cámara en tu dispositivo.', 'error');
+                } else if (err.name === 'NotReadableError') {
+                    mostrarAlerta('❌ La cámara está siendo usada por otra aplicación.', 'error');
+                }
+                return false;
+            }
+        }
+
         // Iniciar cámara
-        function iniciarCamara() {
-            if (html5QrCode) {
-                html5QrCode.stop();
+        async function iniciarCamara() {
+            // Pedir permiso primero (solo la primera vez)
+            if (!html5QrCode) {
+                const tienePermiso = await pedirPermisoCamara();
+                if (!tienePermiso) {
+                    document.getElementById('btnStart').style.display = 'block';
+                    document.getElementById('btnStop').style.display = 'none';
+                    return;
+                }
+            }
+
+            // Detener instancia anterior si existe
+            if (html5QrCode && html5QrCode.getState() === 2) {
+                try {
+                    await html5QrCode.stop();
+                    await new Promise(resolve => setTimeout(resolve, 300));
+                } catch (e) {
+                    console.log('Error al detener cámara anterior:', e);
+                }
             }
 
             codigoEscaneado = false;
@@ -559,26 +594,33 @@
                 qrbox: { width: 250, height: 250 }
             };
 
-            html5QrCode.start(
-                { facingMode: "environment" },
-                config,
-                qrCodeSuccessCallback,
-                () => {}
-            ).catch((err) => {
-                mostrarAlerta('Error al acceder a la cámara. Verifica los permisos.', 'error');
-            });
-
-            document.getElementById('btnStart').style.display = 'none';
-            document.getElementById('btnStop').style.display = 'block';
+            try {
+                await html5QrCode.start(
+                    { facingMode: "environment" },
+                    config,
+                    qrCodeSuccessCallback,
+                    () => {}
+                );
+                
+                document.getElementById('btnStart').style.display = 'none';
+                document.getElementById('btnStop').style.display = 'block';
+            } catch (err) {
+                mostrarAlerta('❌ Error al iniciar la cámara. Intenta de nuevo.', 'error');
+                document.getElementById('btnStart').style.display = 'block';
+                document.getElementById('btnStop').style.display = 'none';
+            }
         }
 
         // Detener cámara
-        function detenerCamara() {
+        async function detenerCamara() {
             if (html5QrCode && html5QrCode.getState() === 2) {
-                html5QrCode.stop().then(() => {
+                try {
+                    await html5QrCode.stop();
                     document.getElementById('btnStart').style.display = 'block';
                     document.getElementById('btnStop').style.display = 'none';
-                });
+                } catch (e) {
+                    console.log('Error al detener cámara:', e);
+                }
             }
         }
 
@@ -588,23 +630,35 @@
                 codigoChip = codigo;
                 mostrarAlerta('✓ Chip escaneado correctamente', 'success');
                 
-                // Cambiar a escaneo de teléfono después de 1 segundo
+                // Cambiar a escaneo de teléfono después de 1.5 segundos
                 setTimeout(() => {
                     tipoScan = 'telefono';
                     actualizarTitulo();
                     codigoEscaneado = false;
                     
+                    // Detener la cámara actual
                     if (html5QrCode && html5QrCode.getState() === 2) {
                         html5QrCode.stop().then(() => {
-                            setTimeout(() => iniciarCamara(), 500);
+                            // Esperar 500ms y reiniciar la cámara
+                            setTimeout(() => {
+                                iniciarCamara();
+                            }, 500);
+                        }).catch(() => {
+                            // Si hay error al detener, reiniciar igual
+                            setTimeout(() => {
+                                iniciarCamara();
+                            }, 500);
                         });
+                    } else {
+                        // Si no está activa, iniciar directamente
+                        iniciarCamara();
                     }
                 }, 1500);
             } else {
                 codigoTelefono = codigo;
                 mostrarAlerta('✓ Teléfono escaneado correctamente', 'success');
                 
-                // Ir al formulario después de 1 segundo
+                // Ir al formulario después de 1.5 segundos
                 setTimeout(() => {
                     detenerCamara();
                     irAlFormulario();
@@ -651,13 +705,24 @@
         }
 
         // Volver al escaneo
-        function volverAlEscaneo() {
+        async function volverAlEscaneo() {
             document.getElementById('formScreen').classList.remove('active');
             document.getElementById('scannerScreen').classList.add('active');
             tipoScan = 'chip';
             codigoChip = null;
             codigoTelefono = null;
             actualizarTitulo();
+            
+            // Detener cámara anterior si existe
+            if (html5QrCode && html5QrCode.getState() === 2) {
+                try {
+                    await html5QrCode.stop();
+                    html5QrCode = null;
+                } catch (e) {
+                    html5QrCode = null;
+                }
+            }
+            
             setTimeout(() => iniciarCamara(), 500);
         }
 
