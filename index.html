@@ -12,577 +12,883 @@
             box-sizing: border-box;
         }
 
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-            padding: 20px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
+        :root {
+            --primary: #0066cc;
+            --primary-dark: #0052a3;
+            --primary-light: #e6f0ff;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --bg-dark: #0f1419;
+            --bg-light: #ffffff;
+            --text-primary: #1f2937;
+            --text-secondary: #6b7280;
+            --border: #e5e7eb;
+            --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.07);
+            --shadow-lg: 0 20px 25px rgba(0, 0, 0, 0.1);
         }
 
-        .container {
-            background: white;
-            border-radius: 15px;
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
-            max-width: 500px;
+        html, body {
+            height: 100%;
             width: 100%;
-            padding: 40px;
-            animation: slideIn 0.5s ease;
         }
 
-        @keyframes slideIn {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', sans-serif;
+            background: linear-gradient(135deg, #f9fafb 0%, #f3f4f6 100%);
+            color: var(--text-primary);
+            overflow-x: hidden;
         }
 
-        /* PANTALLA DE BIENVENIDA */
+        .app-container {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* HEADER */
+        .header {
+            background: var(--bg-light);
+            border-bottom: 1px solid var(--border);
+            padding: 1.5rem 1rem;
+            box-shadow: var(--shadow-sm);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-content {
+            max-width: 600px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .header-logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .header-title {
+            flex: 1;
+        }
+
+        .header-title h1 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin: 0;
+        }
+
+        .header-title p {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            margin-top: 0.25rem;
+        }
+
+        /* MAIN CONTENT */
+        .main {
+            flex: 1;
+            padding: 2rem 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .content-wrapper {
+            width: 100%;
+            max-width: 600px;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* SCREENS - IMPORTANTE: OCULTAR POR DEFECTO */
+        .screen {
+            display: none !important;
+        }
+
+        .screen.active {
+            display: block !important;
+        }
+
+        /* ============================================
+           PANTALLA DE BIENVENIDA
+           ============================================ */
         .welcome-screen {
             text-align: center;
         }
 
-        .welcome-screen.hidden {
-            display: none;
+        .welcome-header {
+            margin-bottom: 3rem;
         }
 
-        .logo-grande {
-            font-size: 80px;
-            margin-bottom: 30px;
-            animation: bounce 2s infinite;
+        .welcome-icon {
+            font-size: 5rem;
+            margin-bottom: 1.5rem;
+            display: block;
+            animation: float 3s ease-in-out infinite;
         }
 
-        @keyframes bounce {
-            0%, 100% { transform: translateY(0); }
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
             50% { transform: translateY(-20px); }
         }
 
         .welcome-screen h1 {
-            font-size: 32px;
-            color: #333;
-            margin-bottom: 15px;
+            font-size: 2.5rem;
             font-weight: 700;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
 
-        .welcome-screen p {
-            font-size: 16px;
-            color: #666;
-            margin-bottom: 40px;
-            line-height: 1.6;
+        .welcome-screen > p {
+            font-size: 1rem;
+            color: var(--text-secondary);
+            margin-bottom: 3rem;
+            line-height: 1.8;
         }
 
-        .features {
-            background: #f9f9f9;
-            border-radius: 10px;
-            padding: 20px;
-            margin-bottom: 30px;
-            text-align: left;
+        .info-section {
+            background: var(--bg-light);
+            border-radius: 1rem;
+            padding: 2rem 1.5rem;
+            margin-bottom: 2.5rem;
+            border: 1px solid var(--border);
+            box-shadow: var(--shadow-sm);
         }
 
-        .feature-item {
+        .info-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 1.5rem;
             display: flex;
             align-items: center;
-            margin-bottom: 15px;
-            font-size: 15px;
-            color: #555;
+            gap: 0.75rem;
+            justify-content: center;
         }
 
-        .feature-item:last-child {
-            margin-bottom: 0;
+        .info-title span {
+            font-size: 1.5rem;
         }
 
-        .feature-icon {
-            font-size: 24px;
-            margin-right: 15px;
-            width: 40px;
+        .info-content {
+            text-align: left;
+            display: flex;
+            flex-direction: column;
+            gap: 1.25rem;
+        }
+
+        .info-item {
+            display: flex;
+            gap: 1rem;
+            align-items: flex-start;
+        }
+
+        .info-item-number {
+            background: var(--primary);
+            color: white;
+            width: 2rem;
+            height: 2rem;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 0.9rem;
+            flex-shrink: 0;
+        }
+
+        .info-item-text h3 {
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 0.25rem;
+        }
+
+        .info-item-text p {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            line-height: 1.5;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-top: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .feature-badge {
+            background: linear-gradient(135deg, var(--primary-light), #f0f4ff);
+            border: 1px solid var(--primary);
+            padding: 1rem;
+            border-radius: 0.75rem;
             text-align: center;
+            transition: all 0.3s ease;
         }
 
-        .btn-start {
+        .feature-badge:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .feature-badge .icon {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .feature-badge p {
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        /* BUTTONS */
+        .btn {
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            background: #667eea;
-            color: white;
+            gap: 0.5rem;
+            padding: 0.875rem 1.5rem;
             border: none;
-            padding: 18px 40px;
-            border-radius: 10px;
-            font-size: 16px;
-            font-weight: 700;
+            border-radius: 0.625rem;
+            font-size: 0.95rem;
+            font-weight: 600;
             cursor: pointer;
-            transition: all 0.3s ease;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            gap: 10px;
+            transition: all 0.2s ease;
+            text-transform: none;
+            letter-spacing: normal;
+            white-space: nowrap;
         }
 
-        .btn-start:hover {
-            background: #5568d3;
-            transform: translateY(-3px);
-            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
+        .btn:active {
+            transform: scale(0.98);
         }
 
-        .btn-start:active {
-            transform: translateY(-1px);
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
         }
 
-        /* PANTALLA DE ESCANEO */
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+            width: 100%;
+            padding: 1.25rem 2rem;
+            font-size: 1.1rem;
+            font-weight: 700;
+        }
+
+        .btn-primary:hover:not(:disabled) {
+            background: var(--primary-dark);
+            box-shadow: var(--shadow-lg);
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background: var(--bg-light);
+            color: var(--text-primary);
+            border: 1px solid var(--border);
+            width: 100%;
+        }
+
+        .btn-secondary:hover:not(:disabled) {
+            background: #f3f4f6;
+            border-color: var(--text-secondary);
+        }
+
+        .btn-success {
+            background: var(--success);
+            color: white;
+            width: 100%;
+        }
+
+        .btn-success:hover:not(:disabled) {
+            background: #059669;
+            box-shadow: var(--shadow-md);
+        }
+
+        /* SCANNER SCREEN */
         .scanner-screen {
-            display: none;
+            display: flex !important;
+            flex-direction: column;
         }
 
-        .scanner-screen.active {
-            display: block;
+        .scanner-screen.screen:not(.active) {
+            display: none !important;
         }
 
-        .progress {
+        .progress-bar {
             display: flex;
-            gap: 10px;
-            margin-bottom: 30px;
-            justify-content: space-between;
+            gap: 0.5rem;
+            margin-bottom: 2rem;
         }
 
-        .progress-item {
+        .progress-segment {
             flex: 1;
-            height: 8px;
-            background: #e0e0e0;
-            border-radius: 10px;
-            overflow: hidden;
+            height: 3px;
+            background: var(--border);
+            border-radius: 2px;
+            transition: background 0.3s ease;
         }
 
-        .progress-item.active {
-            background: #667eea;
+        .progress-segment.completed {
+            background: var(--success);
         }
 
-        .progress-item.completed {
-            background: #28a745;
+        .progress-segment.active {
+            background: var(--primary);
         }
 
-        .scanner-title {
+        .scanner-header {
             text-align: center;
-            margin-bottom: 25px;
+            margin-bottom: 2rem;
         }
 
-        .scanner-title h2 {
-            font-size: 22px;
-            color: #333;
-            margin-bottom: 5px;
+        .scanner-header h2 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
         }
 
-        .scanner-title p {
-            font-size: 14px;
-            color: #666;
+        .scanner-header p {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
         }
 
         #reader {
             width: 100%;
-            border-radius: 10px;
+            border-radius: 0.75rem;
             overflow: hidden;
             background: #000;
-            margin-bottom: 20px;
+            margin-bottom: 1.5rem;
+            aspect-ratio: 1 / 1;
             min-height: 300px;
         }
 
-        .camera-buttons {
+        #reader video {
+            width: 100% !important;
+            height: 100% !important;
+            object-fit: cover;
+        }
+
+        .camera-controls {
             display: flex;
-            gap: 10px;
-            margin-bottom: 20px;
+            gap: 0.75rem;
         }
 
-        .btn {
+        .camera-controls .btn {
             flex: 1;
-            padding: 12px;
-            border: none;
-            border-radius: 8px;
-            font-size: 14px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
         }
 
-        .btn-primary {
-            background: #667eea;
-            color: white;
+        /* ALERTS */
+        .alert {
+            padding: 1rem;
+            border-radius: 0.625rem;
+            font-size: 0.9rem;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 1.5rem;
+            animation: slideDown 0.2s ease;
         }
 
-        .btn-primary:hover {
-            background: #5568d3;
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
-        .btn-secondary {
-            background: #f0f0f0;
-            color: #333;
+        .alert-success {
+            background: #d1fae5;
+            color: #065f46;
+            border-left: 3px solid var(--success);
         }
 
-        .btn-secondary:hover {
-            background: #e0e0e0;
+        .alert-error {
+            background: #fee2e2;
+            color: #7f1d1d;
+            border-left: 3px solid var(--danger);
         }
 
-        /* FORMULARIO */
+        .alert-info {
+            background: #dbeafe;
+            color: #1e3a8a;
+            border-left: 3px solid var(--primary);
+        }
+
+        /* FORM SCREEN */
         .form-screen {
-            display: none;
+            display: flex !important;
+            flex-direction: column;
         }
 
-        .form-screen.active {
-            display: block;
+        .form-screen.screen:not(.active) {
+            display: none !important;
         }
 
-        .form-title {
-            font-size: 20px;
-            color: #333;
-            margin-bottom: 25px;
+        .form-header {
             text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .form-header h2 {
+            font-size: 1.5rem;
             font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .form-header p {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
         }
 
         .form-group {
-            margin-bottom: 20px;
-        }
-
-        .form-group label {
-            display: block;
-            font-size: 14px;
-            font-weight: 600;
-            color: #333;
-            margin-bottom: 8px;
+            margin-bottom: 1.5rem;
         }
 
         .form-group-row {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 15px;
+            gap: 1rem;
         }
 
         .form-group-row .form-group {
             margin-bottom: 0;
         }
 
+        .form-group label {
+            display: block;
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+        }
+
         .form-group input {
             width: 100%;
-            padding: 12px;
-            border: 2px solid #ddd;
-            border-radius: 8px;
-            font-size: 14px;
-            transition: all 0.3s ease;
+            padding: 0.875rem;
+            border: 1px solid var(--border);
+            border-radius: 0.625rem;
+            font-size: 0.95rem;
             font-family: inherit;
+            transition: all 0.2s ease;
+            background: var(--bg-light);
         }
 
         .form-group input:focus {
             outline: none;
-            border-color: #667eea;
-            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+            border-color: var(--primary);
+            background: var(--primary-light);
+            box-shadow: 0 0 0 2px var(--primary-light);
         }
 
         .form-group input:disabled {
-            background: #f5f5f5;
+            background: #f3f4f6;
+            color: var(--text-secondary);
             cursor: not-allowed;
         }
 
         .form-group input.success {
-            border-color: #28a745;
-            background: #f0fff4;
+            border-color: var(--success);
+            background: #f0fdf4;
         }
 
         .status-badge {
             display: inline-block;
-            padding: 5px 12px;
-            border-radius: 20px;
-            font-size: 11px;
+            padding: 0.375rem 0.75rem;
+            border-radius: 0.375rem;
+            font-size: 0.75rem;
             font-weight: 700;
             text-transform: uppercase;
-            margin-top: 5px;
-        }
-
-        .status-badge.scanned {
-            background: #d4edda;
-            color: #155724;
+            margin-top: 0.5rem;
         }
 
         .status-badge.pending {
-            background: #fff3cd;
-            color: #856404;
+            background: #fef3c7;
+            color: #92400e;
         }
 
-        .alert {
-            padding: 15px;
-            border-radius: 8px;
-            margin-bottom: 20px;
-            font-size: 14px;
-            font-weight: 500;
-            display: flex;
-            align-items: center;
-            gap: 10px;
+        .status-badge.scanned {
+            background: #d1fae5;
+            color: #065f46;
         }
 
-        .alert-success {
-            background: #d4edda;
-            color: #155724;
-            border-left: 4px solid #28a745;
-        }
-
-        .alert-error {
-            background: #f8d7da;
-            color: #721c24;
-            border-left: 4px solid #f5c6cb;
-        }
-
-        .alert-info {
-            background: #d1ecf1;
-            color: #0c5460;
-            border-left: 4px solid #bee5eb;
-        }
-
-        .form-buttons {
+        .form-actions {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 10px;
-            margin-top: 30px;
+            gap: 1rem;
+            margin-top: 2rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--border);
         }
 
-        .btn-reset {
-            background: #f0f0f0;
-            color: #333;
-            border: 2px solid #ddd;
-        }
-
-        .btn-reset:hover {
-            background: #e0e0e0;
-        }
-
-        .btn-submit {
-            background: #28a745;
-            color: white;
-        }
-
-        .btn-submit:hover {
-            background: #218838;
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(40, 167, 69, 0.4);
-        }
-
-        .btn-submit:disabled {
-            background: #ccc;
-            cursor: not-allowed;
-            opacity: 0.6;
-        }
-
-        @media (max-width: 600px) {
-            .container {
-                padding: 20px;
-            }
-
-            .logo-grande {
-                font-size: 60px;
+        @media (max-width: 480px) {
+            .header-title h1 {
+                font-size: 1rem;
             }
 
             .welcome-screen h1 {
-                font-size: 24px;
+                font-size: 2rem;
             }
 
-            .btn-start {
-                padding: 15px 30px;
-                font-size: 14px;
+            .welcome-icon {
+                font-size: 4rem;
+            }
+
+            .features-grid {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+
+            .form-group-row {
+                grid-template-columns: 1fr;
+            }
+
+            .scanner-header h2 {
+                font-size: 1.25rem;
+            }
+
+            .btn {
+                padding: 0.75rem 1.25rem;
+                font-size: 0.9rem;
+            }
+
+            .btn-primary {
+                padding: 1rem 1.5rem;
+                font-size: 1rem;
+            }
+
+            #reader {
+                min-height: 250px;
+            }
+
+            .main {
+                padding: 1.5rem 1rem;
+            }
+
+            .form-actions {
+                grid-template-columns: 1fr;
+            }
+
+            .info-section {
+                padding: 1.5rem 1rem;
+            }
+        }
+
+        /* DARK MODE SUPPORT */
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --bg-light: #1f2937;
+                --bg-dark: #0f1419;
+                --text-primary: #f9fafb;
+                --text-secondary: #d1d5db;
+                --border: #374151;
+                --primary-light: #1e40af;
+            }
+
+            body {
+                background: linear-gradient(135deg, #111827 0%, #0f1419 100%);
+            }
+
+            .header {
+                background: var(--bg-light);
+            }
+
+            .feature-badge {
+                background: linear-gradient(135deg, #1e3a8a, #1e40af);
+                border-color: var(--primary);
+            }
+
+            .btn-secondary {
+                background: #111827;
+                color: var(--text-primary);
+                border-color: var(--border);
+            }
+
+            .btn-secondary:hover:not(:disabled) {
+                background: #1f2937;
+            }
+
+            .form-group input {
+                background: #111827;
+                color: var(--text-primary);
+                border-color: var(--border);
+            }
+
+            .form-group input:focus {
+                background: #1e3a8a;
+            }
+
+            .form-group input:disabled {
+                background: #0f1419;
+                color: var(--text-secondary);
+            }
+
+            .info-section {
+                background: #111827;
+                border-color: var(--border);
             }
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <!-- PANTALLA DE BIENVENIDA -->
-        <div class="welcome-screen" id="welcomeScreen">
-            <div class="logo-grande">📱</div>
-            <h1>Escáner Movistar</h1>
-            <p>Sistema inteligente de escaneo de códigos</p>
-
-            <div class="features">
-                <div class="feature-item">
-                    <div class="feature-icon">📷</div>
-                    <div>Escanea códigos de barras con tu cámara</div>
-                </div>
-                <div class="feature-item">
-                    <div class="feature-icon">🔌</div>
-                    <div>Registra chips SIM de Movistar</div>
-                </div>
-                <div class="feature-item">
-                    <div class="feature-icon">☎️</div>
-                    <div>Registra números de teléfono</div>
-                </div>
-                <div class="feature-item">
-                    <div class="feature-icon">✓</div>
-                    <div>Los datos se guardan automáticamente</div>
+    <div class="app-container">
+        <!-- HEADER -->
+        <header class="header">
+            <div class="header-content">
+                <div class="header-logo">📱</div>
+                <div class="header-title">
+                    <h1>Escáner</h1>
+                    <p>Movistar</p>
                 </div>
             </div>
+        </header>
 
-            <button class="btn-start" onclick="iniciarEscaneo()">
-                📷 Iniciar Escaneo
-            </button>
-        </div>
-
-        <!-- PANTALLA DE ESCANEO -->
-        <div class="scanner-screen" id="scannerScreen">
-            <!-- Barras de progreso -->
-            <div class="progress">
-                <div class="progress-item completed" id="progressChip"></div>
-                <div class="progress-item active" id="progressTelefono"></div>
-            </div>
-
-            <!-- Título dinámico -->
-            <div class="scanner-title">
-                <h2 id="scanTitle">Escanea el Chip SIM</h2>
-                <p id="scanSubtitle">Acerca el código de barras a la cámara</p>
-            </div>
-
-            <!-- Alertas -->
-            <div id="alertContainer"></div>
-
-            <!-- Cámara -->
-            <div id="reader"></div>
-
-            <!-- Botones de cámara -->
-            <div class="camera-buttons">
-                <button class="btn btn-primary" onclick="iniciarCamara()" id="btnStart">
-                    📷 Iniciar Cámara
-                </button>
-                <button class="btn btn-secondary" onclick="detenerCamara()" id="btnStop" style="display: none;">
-                    ⏹️ Detener
-                </button>
-            </div>
-        </div>
-
-        <!-- FORMULARIO -->
-        <div class="form-screen" id="formScreen">
-            <div class="form-title">✓ Verifica los datos escaneados</div>
-
-            <div id="alertContainer2"></div>
-
-            <form onsubmit="guardarDatos(event)">
-                <div class="form-group-row">
-                    <div class="form-group">
-                        <label for="codigoChip">Código Chip SIM 🔌</label>
-                        <input type="text" id="codigoChip" placeholder="Se escaneará automáticamente" readonly>
-                        <div class="status-badge pending" id="statusChip">Pendiente</div>
+        <!-- MAIN CONTENT -->
+        <main class="main">
+            <div class="content-wrapper">
+                <!-- WELCOME SCREEN -->
+                <div class="screen active welcome-screen" id="welcomeScreen">
+                    <div class="welcome-header">
+                        <span class="welcome-icon">📱</span>
+                        <h1>Bienvenido</h1>
+                        <p>Sistema Inteligente de Escaneo para Movistar</p>
                     </div>
-                    <div class="form-group">
-                        <label for="codigoTelefono">Código Teléfono ☎️</label>
-                        <input type="text" id="codigoTelefono" placeholder="Se escaneará automáticamente" readonly>
-                        <div class="status-badge pending" id="statusTelefono">Pendiente</div>
+
+                    <div class="info-section">
+                        <div class="info-title">
+                            <span>❓</span>
+                            ¿Qué hace este sistema?
+                        </div>
+                        <div class="info-content">
+                            <div class="info-item">
+                                <div class="info-item-number">1</div>
+                                <div class="info-item-text">
+                                    <h3>Escaneo de Chip SIM</h3>
+                                    <p>Captura automáticamente el código del chip SIM mediante la cámara de tu dispositivo</p>
+                                </div>
+                            </div>
+                            <div class="info-item">
+                                <div class="info-item-number">2</div>
+                                <div class="info-item-text">
+                                    <h3>Escaneo de Teléfono</h3>
+                                    <p>Registra el código del número telefónico asociado al cliente</p>
+                                </div>
+                            </div>
+                            <div class="info-item">
+                                <div class="info-item-number">3</div>
+                                <div class="info-item-text">
+                                    <h3>Verificación de Datos</h3>
+                                    <p>Revisa y confirma la información escaneada antes de guardar</p>
+                                </div>
+                            </div>
+                            <div class="info-item">
+                                <div class="info-item-number">4</div>
+                                <div class="info-item-text">
+                                    <h3>Guardado Automático</h3>
+                                    <p>Los datos se guardan de forma segura y ordenada en el historial</p>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                </div>
 
-                <div class="form-group">
-                    <label for="descripcion">Descripción (Opcional)</label>
-                    <input type="text" id="descripcion" placeholder="Ej: Cliente VIP, Renovación, Cambio de plan">
-                </div>
+                    <div class="features-grid">
+                        <div class="feature-badge">
+                            <div class="icon">⚡</div>
+                            <p>Rápido y Eficiente</p>
+                        </div>
+                        <div class="feature-badge">
+                            <div class="icon">🔒</div>
+                            <p>Datos Seguros</p>
+                        </div>
+                        <div class="feature-badge">
+                            <div class="icon">📊</div>
+                            <p>Registro Completo</p>
+                        </div>
+                        <div class="feature-badge">
+                            <div class="icon">📱</div>
+                            <p>Responsive</p>
+                        </div>
+                    </div>
 
-                <div class="form-group">
-                    <label for="notas">Notas (Opcional)</label>
-                    <input type="text" id="notas" placeholder="Observaciones adicionales">
-                </div>
-
-                <div class="form-group">
-                    <label for="fecha">Fecha de Escaneo</label>
-                    <input type="datetime-local" id="fecha" disabled>
-                </div>
-
-                <div class="form-buttons">
-                    <button type="button" class="btn btn-reset" onclick="volverAlEscaneo()">
-                        ← Volver
-                    </button>
-                    <button type="submit" class="btn btn-submit" id="btnGuardar">
-                        ✓ Guardar
+                    <button class="btn btn-primary" onclick="iniciarEscaneo()">
+                        📷 Abrir Scanner
                     </button>
                 </div>
-            </form>
-        </div>
+
+                <!-- SCANNER SCREEN -->
+                <div class="screen scanner-screen" id="scannerScreen">
+                    <div class="progress-bar">
+                        <div class="progress-segment active" id="progressChip"></div>
+                        <div class="progress-segment" id="progressTelefono"></div>
+                    </div>
+
+                    <div class="scanner-header">
+                        <h2 id="scanTitle">Escanea el Chip SIM</h2>
+                        <p id="scanSubtitle">Acerca el código a la cámara</p>
+                    </div>
+
+                    <div id="alertContainer"></div>
+
+                    <div id="reader"></div>
+
+                    <div class="camera-controls">
+                        <button class="btn btn-primary" type="button" onclick="iniciarCamara()" id="btnStart">
+                            📷 Iniciar cámara
+                        </button>
+                        <button class="btn btn-secondary" type="button" onclick="detenerCamara()" id="btnStop" style="display: none;">
+                            ⏹️ Detener
+                        </button>
+                    </div>
+                </div>
+
+                <!-- FORM SCREEN -->
+                <div class="screen form-screen" id="formScreen">
+                    <div class="form-header">
+                        <h2>✓ Verificar datos</h2>
+                        <p>Revisa la información escaneada</p>
+                    </div>
+
+                    <div id="alertContainer2"></div>
+
+                    <form onsubmit="guardarDatos(event)">
+                        <div class="form-group-row">
+                            <div class="form-group">
+                                <label for="codigoChip">Chip SIM 🔌</label>
+                                <input type="text" id="codigoChip" placeholder="Automático" readonly>
+                                <div class="status-badge pending" id="statusChip">Pendiente</div>
+                            </div>
+                            <div class="form-group">
+                                <label for="codigoTelefono">Teléfono ☎️</label>
+                                <input type="text" id="codigoTelefono" placeholder="Automático" readonly>
+                                <div class="status-badge pending" id="statusTelefono">Pendiente</div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="descripcion">Descripción (opcional)</label>
+                            <input type="text" id="descripcion" placeholder="Ej: Cliente VIP">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="notas">Notas (opcional)</label>
+                            <input type="text" id="notas" placeholder="Observaciones adicionales">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="fecha">Fecha</label>
+                            <input type="datetime-local" id="fecha" disabled>
+                        </div>
+
+                        <div class="form-actions">
+                            <button type="button" class="btn btn-secondary" onclick="volverAlEscaneo()">
+                                ← Volver
+                            </button>
+                            <button type="submit" class="btn btn-success" id="btnGuardar">
+                                ✓ Guardar
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </main>
     </div>
 
     <script>
         let html5QrCode = null;
-        let tipoScan = 'chip'; // 'chip' o 'telefono'
+        let tipoScan = 'chip';
         let codigoChip = null;
         let codigoTelefono = null;
         let codigoEscaneado = false;
 
-        // Iniciar escaneo
         function iniciarEscaneo() {
-            document.getElementById('welcomeScreen').classList.add('hidden');
-            document.getElementById('scannerScreen').classList.add('active');
+            console.log("Iniciando escaneo...");
+            cambiarPantalla('scannerScreen');
             tipoScan = 'chip';
             actualizarTitulo();
-            setTimeout(() => iniciarCamara(), 500);
         }
 
-        // Actualizar título y barra de progreso
+        function cambiarPantalla(pantallaId) {
+            console.log("Cambiando a pantalla:", pantallaId);
+            document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+            document.getElementById(pantallaId).classList.add('active');
+        }
+
         function actualizarTitulo() {
             if (tipoScan === 'chip') {
                 document.getElementById('scanTitle').textContent = 'Escanea el Chip SIM 🔌';
-                document.getElementById('scanSubtitle').textContent = 'Acerca el código de barras a la cámara';
-                document.getElementById('progressChip').classList.add('active');
-                document.getElementById('progressTelefono').classList.remove('active', 'completed');
+                document.getElementById('scanSubtitle').textContent = 'Acerca el código a la cámara';
+                document.getElementById('progressChip').className = 'progress-segment active';
+                document.getElementById('progressTelefono').className = 'progress-segment';
             } else {
                 document.getElementById('scanTitle').textContent = 'Escanea el Teléfono ☎️';
-                document.getElementById('scanSubtitle').textContent = 'Acerca el código de barras a la cámara';
-                document.getElementById('progressChip').classList.add('completed');
-                document.getElementById('progressChip').classList.remove('active');
-                document.getElementById('progressTelefono').classList.add('active');
+                document.getElementById('scanSubtitle').textContent = 'Acerca el código a la cámara';
+                document.getElementById('progressChip').className = 'progress-segment completed';
+                document.getElementById('progressTelefono').className = 'progress-segment active';
             }
         }
 
-        // Pedir permisos de cámara
         async function pedirPermisoCamara() {
             try {
+                console.log("Pidiendo permiso de cámara...");
                 const stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } });
-                // Si llegamos aquí, el permiso fue concedido
                 stream.getTracks().forEach(track => track.stop());
+                console.log("Permiso de cámara concedido");
                 return true;
             } catch (err) {
-                if (err.name === 'NotAllowedError' || err.name === 'PermissionDeniedError') {
-                    mostrarAlerta('❌ Permiso de cámara denegado. Por favor, habilita los permisos e intenta de nuevo.', 'error');
-                } else if (err.name === 'NotFoundError') {
-                    mostrarAlerta('❌ No se encontró cámara en tu dispositivo.', 'error');
-                } else if (err.name === 'NotReadableError') {
-                    mostrarAlerta('❌ La cámara está siendo usada por otra aplicación.', 'error');
-                }
+                console.error("Error de cámara:", err.name);
+                const mensajes = {
+                    'NotAllowedError': '❌ Permiso de cámara denegado',
+                    'PermissionDeniedError': '❌ Permiso de cámara denegado',
+                    'NotFoundError': '❌ Cámara no encontrada',
+                    'NotReadableError': '❌ La cámara está en uso'
+                };
+                mostrarAlerta(mensajes[err.name] || '❌ Error de cámara: ' + err.name, 'error');
                 return false;
             }
         }
 
-        // Iniciar cámara
         async function iniciarCamara() {
-            // Pedir permiso primero (solo la primera vez)
+            console.log("Función iniciarCamara llamada");
+            
             if (!html5QrCode) {
+                console.log("Primera vez - pidiendo permisos");
                 const tienePermiso = await pedirPermisoCamara();
                 if (!tienePermiso) {
-                    document.getElementById('btnStart').style.display = 'block';
-                    document.getElementById('btnStop').style.display = 'none';
+                    console.log("Permiso denegado");
                     return;
                 }
             }
 
-            // Detener instancia anterior si existe
             if (html5QrCode && html5QrCode.getState() === 2) {
+                console.log("Deteniendo instancia anterior");
                 try {
                     await html5QrCode.stop();
-                    await new Promise(resolve => setTimeout(resolve, 300));
+                    await new Promise(resolve => setTimeout(resolve, 500));
                 } catch (e) {
-                    console.log('Error al detener cámara anterior:', e);
+                    console.log('Error al detener:', e);
                 }
+                html5QrCode = null;
             }
 
             codigoEscaneado = false;
             html5QrCode = new Html5Qrcode("reader");
+            console.log("Html5QrCode inicializado");
 
-            const qrCodeSuccessCallback = (decodedText) => {
+            const qrCodeSuccessCallback = (decodedText, decodedResult) => {
+                console.log("Código escaneado:", decodedText);
                 if (!codigoEscaneado) {
                     codigoEscaneado = true;
                     procesarCodigo(decodedText);
@@ -591,74 +897,65 @@
 
             const config = {
                 fps: 10,
-                qrbox: { width: 250, height: 250 }
+                qrbox: { width: 250, height: 250 },
+                rememberLastUsedCamera: true,
+                aspectRatio: 1.0
             };
 
             try {
+                console.log("Iniciando scanner...");
                 await html5QrCode.start(
                     { facingMode: "environment" },
                     config,
                     qrCodeSuccessCallback,
-                    () => {}
+                    (errorMessage) => {
+                        // Error de escaneo - ignorar
+                    }
                 );
                 
+                console.log("Scanner iniciado correctamente");
                 document.getElementById('btnStart').style.display = 'none';
-                document.getElementById('btnStop').style.display = 'block';
+                document.getElementById('btnStop').style.display = 'inline-flex';
+                mostrarAlerta('✓ Cámara iniciada', 'success');
             } catch (err) {
-                mostrarAlerta('❌ Error al iniciar la cámara. Intenta de nuevo.', 'error');
-                document.getElementById('btnStart').style.display = 'block';
+                console.error("Error al iniciar scanner:", err);
+                mostrarAlerta('❌ Error al iniciar cámara: ' + err.message, 'error');
+                document.getElementById('btnStart').style.display = 'inline-flex';
                 document.getElementById('btnStop').style.display = 'none';
             }
         }
 
-        // Detener cámara
         async function detenerCamara() {
+            console.log("Deteniendo cámara");
             if (html5QrCode && html5QrCode.getState() === 2) {
                 try {
                     await html5QrCode.stop();
-                    document.getElementById('btnStart').style.display = 'block';
+                    console.log("Cámara detenida");
+                    document.getElementById('btnStart').style.display = 'inline-flex';
                     document.getElementById('btnStop').style.display = 'none';
                 } catch (e) {
-                    console.log('Error al detener cámara:', e);
+                    console.log('Error:', e);
                 }
             }
         }
 
-        // Procesar código escaneado
         function procesarCodigo(codigo) {
+            console.log("Procesando código:", codigo, "Tipo:", tipoScan);
+            
             if (tipoScan === 'chip') {
                 codigoChip = codigo;
-                mostrarAlerta('✓ Chip escaneado correctamente', 'success');
+                mostrarAlerta('✓ Chip escaneado: ' + codigo, 'success');
                 
-                // Cambiar a escaneo de teléfono después de 1.5 segundos
                 setTimeout(() => {
                     tipoScan = 'telefono';
                     actualizarTitulo();
                     codigoEscaneado = false;
-                    
-                    // Detener la cámara actual
-                    if (html5QrCode && html5QrCode.getState() === 2) {
-                        html5QrCode.stop().then(() => {
-                            // Esperar 500ms y reiniciar la cámara
-                            setTimeout(() => {
-                                iniciarCamara();
-                            }, 500);
-                        }).catch(() => {
-                            // Si hay error al detener, reiniciar igual
-                            setTimeout(() => {
-                                iniciarCamara();
-                            }, 500);
-                        });
-                    } else {
-                        // Si no está activa, iniciar directamente
-                        iniciarCamara();
-                    }
+                    mostrarAlerta('Ahora escanea el teléfono', 'info');
                 }, 1500);
             } else {
                 codigoTelefono = codigo;
-                mostrarAlerta('✓ Teléfono escaneado correctamente', 'success');
+                mostrarAlerta('✓ Teléfono escaneado: ' + codigo, 'success');
                 
-                // Ir al formulario después de 1.5 segundos
                 setTimeout(() => {
                     detenerCamara();
                     irAlFormulario();
@@ -666,30 +963,43 @@
             }
         }
 
-        // Mostrar alerta
         function mostrarAlerta(mensaje, tipo) {
+            console.log("Mostrando alerta:", mensaje);
             const container = document.getElementById('alertContainer');
             const alerta = document.createElement('div');
             alerta.className = `alert alert-${tipo}`;
-            alerta.textContent = mensaje;
+            const iconos = { 'success': '✓', 'error': '❌', 'info': 'ⓘ' };
+            alerta.innerHTML = `<span>${iconos[tipo] || '•'}</span><span>${mensaje}</span>`;
             container.innerHTML = '';
             container.appendChild(alerta);
 
             setTimeout(() => {
-                alerta.remove();
+                if (alerta.parentElement) alerta.remove();
             }, 4000);
         }
 
-        // Ir al formulario
-        function irAlFormulario() {
-            document.getElementById('scannerScreen').classList.remove('active');
-            document.getElementById('formScreen').classList.add('active');
+        function mostrarAlerta2(mensaje, tipo) {
+            console.log("Mostrando alerta2:", mensaje);
+            const container = document.getElementById('alertContainer2');
+            const alerta = document.createElement('div');
+            alerta.className = `alert alert-${tipo}`;
+            const iconos = { 'success': '✓', 'error': '❌', 'info': 'ⓘ' };
+            alerta.innerHTML = `<span>${iconos[tipo] || '•'}</span><span>${mensaje}</span>`;
+            container.innerHTML = '';
+            container.appendChild(alerta);
 
-            // Llenar datos
+            setTimeout(() => {
+                if (alerta.parentElement) alerta.remove();
+            }, 4000);
+        }
+
+        function irAlFormulario() {
+            console.log("Yendo al formulario");
+            cambiarPantalla('formScreen');
+
             document.getElementById('codigoChip').value = codigoChip || '';
             document.getElementById('codigoTelefono').value = codigoTelefono || '';
 
-            // Actualizar estados
             if (codigoChip) {
                 document.getElementById('statusChip').className = 'status-badge scanned';
                 document.getElementById('statusChip').textContent = '✓ Escaneado';
@@ -699,21 +1009,20 @@
                 document.getElementById('statusTelefono').textContent = '✓ Escaneado';
             }
 
-            // Llenar fecha
-            const ahora = new Date().toISOString().slice(0, 16);
-            document.getElementById('fecha').value = ahora;
+            const ahora = new Date();
+            const fecha = ahora.toISOString().slice(0, 16);
+            document.getElementById('fecha').value = fecha;
         }
 
-        // Volver al escaneo
         async function volverAlEscaneo() {
-            document.getElementById('formScreen').classList.remove('active');
-            document.getElementById('scannerScreen').classList.add('active');
+            console.log("Volviendo al escaneo");
+            cambiarPantalla('scannerScreen');
             tipoScan = 'chip';
             codigoChip = null;
             codigoTelefono = null;
+            codigoEscaneado = false;
             actualizarTitulo();
             
-            // Detener cámara anterior si existe
             if (html5QrCode && html5QrCode.getState() === 2) {
                 try {
                     await html5QrCode.stop();
@@ -723,15 +1032,15 @@
                 }
             }
             
-            setTimeout(() => iniciarCamara(), 500);
+            document.getElementById('btnStart').style.display = 'inline-flex';
+            document.getElementById('btnStop').style.display = 'none';
         }
 
-        // Guardar datos
         function guardarDatos(event) {
             event.preventDefault();
 
             if (!codigoChip || !codigoTelefono) {
-                mostrarAlerta2('Por favor, escanea ambos códigos', 'error');
+                mostrarAlerta2('⚠️ Por favor, escanea ambos códigos', 'error');
                 return;
             }
 
@@ -744,30 +1053,20 @@
                 fecha: document.getElementById('fecha').value
             };
 
-            // Guardar en localStorage
-            let historial = JSON.parse(localStorage.getItem('movistarHistorial') || '[]');
-            historial.push(datos);
-            localStorage.setItem('movistarHistorial', JSON.stringify(historial));
+            try {
+                let historial = JSON.parse(localStorage.getItem('movistarHistorial') || '[]');
+                historial.push(datos);
+                localStorage.setItem('movistarHistorial', JSON.stringify(historial));
 
-            mostrarAlerta2('✓ Datos guardados correctamente', 'success');
+                mostrarAlerta2('✓ Datos guardados correctamente', 'success');
 
-            setTimeout(() => {
-                alert(`✓ REGISTRO COMPLETADO\n\nChip: ${datos.codigoChip}\nTeléfono: ${datos.codigoTelefono}\n\nFecha: ${datos.fecha}`);
-                location.reload();
-            }, 1500);
-        }
-
-        function mostrarAlerta2(mensaje, tipo) {
-            const container = document.getElementById('alertContainer2');
-            const alerta = document.createElement('div');
-            alerta.className = `alert alert-${tipo}`;
-            alerta.textContent = mensaje;
-            container.innerHTML = '';
-            container.appendChild(alerta);
-
-            setTimeout(() => {
-                alerta.remove();
-            }, 4000);
+                setTimeout(() => {
+                    alert(`✓ REGISTRO COMPLETADO\n\nChip: ${datos.codigoChip}\nTeléfono: ${datos.codigoTelefono}\n\nFecha: ${datos.fecha}`);
+                    location.reload();
+                }, 1500);
+            } catch (err) {
+                mostrarAlerta2('❌ Error al guardar: ' + err.message, 'error');
+            }
         }
     </script>
 </body>
